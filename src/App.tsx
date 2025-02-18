@@ -13,6 +13,8 @@ import Profile from './pages/Profile/Profile';
 import CheckoutSuccess from './pages/CheckoutSuccess/CheckoutSuccess';
 import ChangePasswordSection from './components/ChangePasswordSection/ChangePasswordSection';
 import OrderHistorySection from './components/OrderHistorySection/OrderHistorySection';
+import AdminLayout from './layouts/AdminLayout/AdminLayout';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 
 const router = createBrowserRouter([
     {
@@ -42,6 +44,13 @@ const router = createBrowserRouter([
         children: [
             { path: 'login', element: <Login /> },
             { path: 'register', element: <Register /> },
+        ]
+    },
+    {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+            { index: true, element: <AdminDashboard /> },
         ]
     },
 ])

@@ -134,7 +134,7 @@ a.more {
   margin-right: 0px;
 }
 
-.custom-navbar .custom-navbar-cta li:first-child {
+.custom-navbar .custom-navbar-cta li.margin-right {
   margin-right: 20px;
 }
 
@@ -1159,4 +1159,40 @@ textarea {
 
 .modal-body p {
   color: #6a6a6a;
+}
+
+.admin-dashboard {
+  background-color: #eff2f1;
+  min-height: calc(100vh - 90px);
+}
+
+.admin-dashboard .nav-pills .nav-link {
+  color: #3b5d50;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.admin-dashboard .nav-pills .nav-link.active {
+  background-color: #3b5d50;
+  color: white;
+}
+
+.admin-dashboard .table th {
+  background-color: #3b5d50;
+  color: white;
+}
+
+.admin-dashboard .badge {
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.site-blocks-table th.sortable:hover {
+  background-color: #314d43;
+  transition: background-color 0.3s ease;
+}
+
+.site-blocks-table th.sortable {
+  user-select: none;
 }
