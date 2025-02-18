@@ -15,6 +15,7 @@ import ChangePasswordSection from './components/ChangePasswordSection/ChangePass
 import OrderHistorySection from './components/OrderHistorySection/OrderHistorySection';
 import AdminLayout from './layouts/AdminLayout/AdminLayout';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import AdminProfile from './pages/AdminProfile/AdminProfile';
 
 const router = createBrowserRouter([
     {
@@ -51,6 +52,13 @@ const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
             { index: true, element: <AdminDashboard /> },
+            {
+                path: 'profile',
+                element: <AdminProfile />,
+                children: [
+                    { path: 'change-password', element: <ChangePasswordSection /> },
+                ]
+            },
         ]
     },
 ])

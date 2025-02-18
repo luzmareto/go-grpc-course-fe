@@ -11,7 +11,7 @@ function AdminNavbar() {
                 <div className="d-flex align-items-center">
                     <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0">
                         <li className="nav-item margin-right">
-                            <Link className="nav-link" to="/admin/profile">
+                            <Link className="nav-link" to="/admin/profile/change-password">
                                 <img src="/images/user.svg" alt="Admin Profile" />
                             </Link>
                         </li>
