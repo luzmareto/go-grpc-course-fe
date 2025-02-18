@@ -16,6 +16,7 @@ import OrderHistorySection from './components/OrderHistorySection/OrderHistorySe
 import AdminLayout from './layouts/AdminLayout/AdminLayout';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import AdminProfile from './pages/AdminProfile/AdminProfile';
+import AdminOrderDetail from './pages/AdminOrderDetail/AdminOrderDetail';
 
 const router = createBrowserRouter([
     {
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
                     { path: 'change-password', element: <ChangePasswordSection /> },
                 ]
             },
+            { path: "order", element: <AdminOrderDetail /> },
         ]
     },
 ])

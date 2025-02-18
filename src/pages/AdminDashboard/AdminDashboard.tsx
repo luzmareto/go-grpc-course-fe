@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SortableHeader from '../../components/SortableHeader/SortableHeader';
 import useSortableHeader from '../../hooks/useSortableHeader';
 
@@ -38,7 +39,7 @@ function AdminDashboard() {
                                 className={`nav-link ${activeTab === 'orders' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('orders')}
                             >
-                                Orders
+                                Order
                             </button>
                         </div>
                     </div>
@@ -117,7 +118,6 @@ function Pagination({
     );
 }
 
-// TODO: make sort deleteable
 function ProductsPanel() {
     const { handleSort, sortConfig } = useSortableHeader();
     const [currentPage, setCurrentPage] = useState(1);
@@ -189,23 +189,22 @@ function ProductsPanel() {
 function OrdersPanel() {
     const { handleSort, sortConfig } = useSortableHeader();
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 5; // Replace with actual total pages
+    const totalPages = 5;
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
-        // Add your data fetching logic here
     };
 
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="section-title">Orders</h2>
+                <h2 className="section-title">Order</h2>
             </div>
             <div className="table-responsive">
                 <table className="table site-blocks-table">
                     <thead>
                         <tr>
-                            <th>Order Number</th>
+                            <th>Nomor Order</th>
                             <SortableHeader
                                 label="Customer"
                                 sortKey="customer"
@@ -218,7 +217,7 @@ function OrdersPanel() {
                                 currentSort={sortConfig}
                                 onSort={handleSort}
                             />
-                            <th>Items</th>
+                            <th>Item</th>
                             <SortableHeader
                                 label="Status"
                                 sortKey="status"
@@ -226,29 +225,34 @@ function OrdersPanel() {
                                 onSort={handleSort}
                             />
                             <SortableHeader
-                                label="Date"
+                                label="Tanggal"
                                 sortKey="date"
                                 currentSort={sortConfig}
                                 onSort={handleSort}
                             />
-                            <th>Actions</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>#ORD-2025000001</td>
-                            <td>John Doe</td>
+                            <td>Sari</td>
                             <td>$150.00</td>
                             <td>
                                 <div>Top Up T-Shirt x 1</div>
                                 <div>Polo Shirt x 1</div>
                             </td>
                             <td>
-                                <span className="badge bg-warning">Processing</span>
+                                <span className="badge bg-warning">Diproses</span>
                             </td>
                             <td>Jan 15, 2025</td>
                             <td>
-                                <button className="btn btn-secondary">Update Status</button>
+                                {/* TODO: add order link */}
+                                <Link to="/admin/order">
+                                    <button className="btn">
+                                        Lihat Detail
+                                    </button>
+                                </Link>
                             </td>
                         </tr>
                     </tbody>
