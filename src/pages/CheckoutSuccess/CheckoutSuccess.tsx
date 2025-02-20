@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function CheckoutSuccess() {
     return (
         <>
-            <PlainHeroSection title='Order Confirmed' />
+            <PlainHeroSection title='Pesanan Dikonfirmasi' />
 
             <div className="untree_co-section">
                 <div className="container">
@@ -15,44 +15,44 @@ function CheckoutSuccess() {
                                     <span className="display-3 thankyou-icon mb-4">
                                         <i className="bi bi-check-circle-fill"></i>
                                     </span>
-                                    <h2 className="text-black">Thank you for your order!</h2>
+                                    <h2 className="text-black">Terima kasih atas pesanan Anda!</h2>
                                 </div>
 
                                 <div className="row mb-4">
                                     <div className="col-12">
                                         <div className="border-bottom pb-2">
                                             <div className="d-flex justify-content-between">
-                                                <span className="text-black">Order Number:</span>
+                                                <span className="text-black">Nomor Pesanan:</span>
                                                 <strong className="text-black">#ORD-2025000001</strong>
                                             </div>
                                         </div>
                                         <div className="border-bottom py-2">
                                             <div className="d-flex justify-content-between">
-                                                <span className="text-black">Total to be paid:</span>
-                                                <strong className="text-black">$350.00</strong>
+                                                <span className="text-black">Total yang harus dibayar:</span>
+                                                <strong className="text-black">Rp5.500.000</strong>
                                             </div>
                                         </div>
                                         <div className="py-2 border-bottom">
                                             <div className="d-flex justify-content-between">
-                                                <span className="text-black">Payment due by:</span>
-                                                <strong className="text-black">November 30, 2023 23:59</strong>
+                                                <span className="text-black">Batas waktu pembayaran:</span>
+                                                <strong className="text-black">30 November 2023 23:59</strong>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="mb-4">
-                                    <h4 className="text-black mb-3">Bank Transfer Details</h4>
+                                    <h4 className="text-black mb-3">Detail Transfer Bank</h4>
                                     <div className="border p-3">
-                                        <p className="mb-2"><strong>Bank Name:</strong> Bank Intelektual</p>
-                                        <p className="mb-2"><strong>Account Name:</strong> Furni Store Inc</p>
-                                        <p className="mb-2"><strong>Account Number:</strong> 1234-5678-9012-3456</p>
+                                        <p className="mb-2"><strong>Nama Bank:</strong> Bank Intelektual</p>
+                                        <p className="mb-2"><strong>Nama Rekening:</strong> Furni Store Inc</p>
+                                        <p className="mb-2"><strong>Nomor Rekening:</strong> 1234-5678-9012-3456</p>
                                     </div>
                                 </div>
 
                                 <div className="text-center">
-                                    <Link to="/shop" className="btn btn-secondary me-2">Continue Shopping</Link>
-                                    <Link to="/profile/orders" className="btn btn-primary">View Order History</Link>
+                                    <Link to="/shop" className="btn btn-secondary me-2">Lanjut Belanja</Link>
+                                    <Link to="/profile/orders" className="btn btn-primary">Lihat Riwayat Pesanan</Link>
                                 </div>
                             </div>
                         </div>

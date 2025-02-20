@@ -4,7 +4,7 @@ import ProductListSection from '../../components/ProductListSection/ProductListS
 function Shop() {
     return (
         <>
-            <PlainHeroSection title='Shop' />
+            <PlainHeroSection title='Belanja' />
 
             <ProductListSection />
         </>

@@ -1,4 +1,14 @@
+import { useState } from "react";
+import Pagination from "../Pagination/Pagination";
+
 function OrderHistorySection() {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 5;
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     return (
         <div className="p-4 p-lg-5 border bg-white">
             <h2 className="h3 mb-3 text-black">Riwayat Pesanan</h2>
@@ -37,27 +47,11 @@ function OrderHistorySection() {
                 </table>
             </div>
 
-            <div className="row">
-                <div className="col-12">
-                    <nav aria-label="Navigasi riwayat pesanan">
-                        <ul className="pagination justify-content-center">
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Sebelumnya">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Berikutnya">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     )
 }
