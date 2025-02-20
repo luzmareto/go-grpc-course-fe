@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import useSortableHeader from '../../hooks/useSortableHeader';
 import SortableHeader from '../SortableHeader/SortableHeader';
 import Pagination from '../Pagination/Pagination';
+import { Link } from 'react-router-dom';
 
 function AdminProductListSection() {
     const { handleSort, sortConfig } = useSortableHeader();
@@ -16,7 +17,9 @@ function AdminProductListSection() {
         <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="section-title">Produk</h2>
-                <button className="btn btn-primary">Tambah Produk</button>
+                <Link to="/admin/products/create">
+                    <button className="btn btn-primary">Tambah Produk</button>
+                </Link>
             </div>
             <div className="table-responsive">
                 <table className="table site-blocks-table">

@@ -17,6 +17,9 @@ import AdminLayout from './layouts/AdminLayout/AdminLayout';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import AdminProfile from './pages/AdminProfile/AdminProfile';
 import AdminOrderDetail from './pages/AdminOrderDetail/AdminOrderDetail';
+import AdminCreateProduct from './pages/AdminCreateProduct/AdminCreateProduct';
+import AdminProductListSection from './components/AdminProductListSection/AdminProductListSection';
+import AdminOrderListSection from './components/AdminOrderListSection/AdminOrderListSection';
 
 const router = createBrowserRouter([
     {
@@ -52,7 +55,14 @@ const router = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout />,
         children: [
-            { index: true, element: <AdminDashboard /> },
+            {
+                path: '',
+                element: <AdminDashboard />,
+                children: [
+                    { path: 'products', element: <AdminProductListSection /> },
+                    { path: 'orders', element: <AdminOrderListSection /> },
+                ]
+            },
             {
                 path: 'profile',
                 element: <AdminProfile />,
@@ -61,8 +71,9 @@ const router = createBrowserRouter([
                 ]
             },
             { path: "order", element: <AdminOrderDetail /> },
+            { path: "products/create", element: <AdminCreateProduct /> },
         ]
-    },
+    }
 ])
 
 function App() {

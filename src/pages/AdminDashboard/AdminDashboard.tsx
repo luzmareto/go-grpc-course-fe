@@ -1,9 +1,7 @@
-import { useState } from 'react';
-import AdminProductListSection from '../../components/AdminProductListSection/AdminProductListSection';
-import AdminOrderListSection from '../../components/AdminOrderListSection/AdminOrderListSection';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 function AdminDashboard() {
-    const [activeTab, setActiveTab] = useState('products');
+    const location = useLocation();
 
     return (
         <div className="admin-dashboard py-5">
@@ -12,29 +10,19 @@ function AdminDashboard() {
                     {/* Sidebar */}
                     <div className="col-md-3">
                         <div className="nav flex-column nav-pills">
-                            <button
-                                className={`nav-link ${activeTab === 'products' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('products')}
-                            >
+                            <Link to="/admin/products" className={`nav-link ${location.pathname === '/admin/products' ? 'active' : ''}`}>
                                 Produk
-                            </button>
-                            <button
-                                className={`nav-link ${activeTab === 'orders' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('orders')}
-                            >
+                            </Link>
+                            <Link to="/admin/orders" className={`nav-link ${location.pathname === '/admin/orders' ? 'active' : ''}`}>
                                 Order
-                            </button>
+                            </Link>
                         </div>
                     </div>
 
                     {/* Main Content */}
                     <div className="col-md-9">
                         <div className="bg-white p-4 rounded-3">
-                            {activeTab === 'products' ? (
-                                <AdminProductListSection />
-                            ) : (
-                                <AdminOrderListSection />
-                            )}
+                            <Outlet />
                         </div>
                     </div>
                 </div>
