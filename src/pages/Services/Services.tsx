@@ -6,8 +6,8 @@ const Services = () => {
     return (
         <>
             <HeroSection
-                title="Services"
-                subtitle="Experience top-notch interior design solutions tailored to your needs. From concept to completion, we bring your vision to life with elegance and precision."
+                title="Layanan"
+                subtitle="Rasakan solusi desain interior berkualitas tinggi yang disesuaikan dengan kebutuhan Anda. Dari konsep hingga penyelesaian, kami mewujudkan visi Anda dengan elegansi dan presisi."
             />
 
             <ServicesSection />

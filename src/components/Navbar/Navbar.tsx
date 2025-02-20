@@ -28,10 +28,10 @@ function Navbar() {
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className={`nav-item ${pathname === '/shop' ? 'active' : ''}`}>
-                            <Link className="nav-link" to="/shop">Shop</Link>
+                            <Link className="nav-link" to="/shop">Belanja</Link>
                         </li>
                         <li className={`nav-item ${pathname === '/services' ? 'active' : ''}`}>
-                            <Link className="nav-link" to="/services">Services</Link>
+                            <Link className="nav-link" to="/services">Layanan</Link>
                         </li>
                     </ul>
 

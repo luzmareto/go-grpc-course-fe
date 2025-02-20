@@ -15,7 +15,7 @@ function HeroSection(props: HeroSectionProps) {
                             <h1>{props.title}</h1>
                             <p className="mb-4">{props.subtitle}</p>
                             <p>
-                                <Link to="/shop" className="btn btn-secondary me-2">Shop Now</Link>
+                                <Link to="/shop" className="btn btn-secondary me-2">Belanja Sekarang</Link>
                             </p>
                         </div>
                     </div>

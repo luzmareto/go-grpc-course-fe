@@ -1,45 +1,46 @@
 const services = [
     {
         icon: "images/truck.svg",
-        title: "Fast & Free Shipping",
-        description: "Get your orders delivered swiftly with our reliable and free shipping service."
+        title: "Pengiriman Cepat & Gratis",
+        description: "Dapatkan pesanan Anda dengan cepat melalui layanan pengiriman kami yang dapat diandalkan dan gratis."
     },
     {
         icon: "images/bag.svg",
-        title: "Easy Shopping Experience",
-        description: "Enjoy a seamless and hassle-free shopping journey with our intuitive platform."
+        title: "Pengalaman Belanja yang Mudah",
+        description: "Nikmati perjalanan belanja yang lancar dan bebas repot dengan platform kami yang intuitif."
     },
     {
         icon: "images/support.svg",
-        title: "24/7 Customer Support",
-        description: "Need help? Our dedicated support team is available round the clock to assist you."
+        title: "Dukungan Pelanggan 24/7",
+        description: "Butuh bantuan? Tim dukungan kami yang berdedikasi tersedia sepanjang waktu untuk membantu Anda."
     },
     {
         icon: "images/return.svg",
-        title: "Hassle-Free Returns",
-        description: "Not satisfied? We offer a straightforward return policy for a worry-free experience."
+        title: "Pengembalian Tanpa Ribet",
+        description: "Tidak puas? Kami menawarkan kebijakan pengembalian yang sederhana untuk pengalaman tanpa kekhawatiran."
     },
     {
         icon: "images/secure-payments.svg",
-        title: "Secure Payments",
-        description: "Shop with confidence using our encrypted and protected payment methods."
+        title: "Pembayaran Aman",
+        description: "Belanja dengan percaya diri menggunakan metode pembayaran yang terenkripsi dan terlindungi."
     },
     {
         icon: "images/exclusive-offers.svg",
-        title: "Exclusive Offers",
-        description: "Unlock special deals and discounts available only to our valued customers."
+        title: "Penawaran Eksklusif",
+        description: "Dapatkan penawaran khusus dan diskon yang hanya tersedia untuk pelanggan kami yang berharga."
     },
     {
         icon: "images/quality-assurance.svg",
-        title: "Quality Assurance",
-        description: "We ensure top-notch quality in all our products with rigorous testing."
+        title: "Jaminan Kualitas",
+        description: "Kami memastikan kualitas terbaik di semua produk kami dengan pengujian yang ketat."
     },
     {
         icon: "images/loyalty-rewards.svg",
-        title: "Loyalty Rewards",
-        description: "Earn points and enjoy benefits with our rewarding customer loyalty program."
+        title: "Hadiah Loyalitas",
+        description: "Kumpulkan poin dan nikmati manfaat melalui program loyalitas pelanggan kami yang menguntungkan."
     }
 ];
+
 
 function ServicesSection() {
     return (

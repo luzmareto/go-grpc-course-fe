@@ -1,12 +1,20 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection';
 
 function Profile() {
     const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (location.pathname === '/profile') {
+            navigate('/profile/change-password');
+        }
+    }, [navigate, location.pathname]);
 
     return (
         <>
-            <PlainHeroSection title='My Profile' />
+            <PlainHeroSection title='Profil Saya' />
 
             <div className="untree_co-section before-footer-section">
                 <div className="container">
@@ -16,20 +24,20 @@ function Profile() {
                                 <div className="row">
                                     <div className="col-md-4">
                                         <div className="form-group">
-                                            <label className="text-black">Full Name</label>
+                                            <label className="text-black">Nama Lengkap</label>
                                             <div className="form-control-plaintext">John Doe</div>
                                         </div>
                                     </div>
                                     <div className="col-md-4">
                                         <div className="form-group">
-                                            <label className="text-black">Email Address</label>
+                                            <label className="text-black">Alamat Email</label>
                                             <div className="form-control-plaintext">john.doe@example.com</div>
                                         </div>
                                     </div>
                                     <div className="col-md-4">
                                         <div className="form-group">
-                                            <label className="text-black">Member Since</label>
-                                            <div className="form-control-plaintext">January 15, 2024</div>
+                                            <label className="text-black">Anggota Sejak</label>
+                                            <div className="form-control-plaintext">15 Januari 2024</div>
                                         </div>
                                     </div>
                                 </div>
@@ -44,13 +52,13 @@ function Profile() {
                                     to="/profile/change-password"
                                     className={`nav-link ${location.pathname === '/profile/change-password' ? 'active' : ''}`}
                                 >
-                                    Change Password
+                                    Ubah Kata Sandi
                                 </Link>
                                 <Link
                                     to="/profile/orders"
                                     className={`nav-link ${location.pathname === '/profile/orders' ? 'active' : ''}`}
                                 >
-                                    Order History
+                                    Riwayat Pesanan
                                 </Link>
                             </div>
                         </div>

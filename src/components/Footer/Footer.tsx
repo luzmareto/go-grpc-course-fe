@@ -13,17 +13,17 @@ function Footer() {
                         <div className="subscription-form">
                             <h3 className="d-flex align-items-center">
                                 <span className="me-1">
-                                    <img src="/images/envelope-outline.svg" alt="Envelope" className="img-fluid" />
+                                    <img src="/images/envelope-outline.svg" alt="Amplop" className="img-fluid" />
                                 </span>
-                                <span>Subscribe to Newsletter</span>
+                                <span>Langganan Newsletter</span>
                             </h3>
 
                             <form className="row g-3">
                                 <div className="col-auto">
-                                    <input type="text" className="form-control" placeholder="Enter your name" />
+                                    <input type="text" className="form-control" placeholder="Masukkan nama Anda" />
                                 </div>
                                 <div className="col-auto">
-                                    <input type="email" className="form-control" placeholder="Enter your email" />
+                                    <input type="email" className="form-control" placeholder="Masukkan email Anda" />
                                 </div>
                                 <div className="col-auto">
                                     <button className="btn btn-primary">

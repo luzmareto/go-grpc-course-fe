@@ -6,8 +6,8 @@ const Home = () => {
     return (
         <>
             <HeroSection
-                title='Modern Interior Design Studio'
-                subtitle='Transform your space with timeless elegance and modern aesthetics. We craft interiors that blend functionality with sophistication, tailored to your unique style.'
+                title='Studio Desain Interior Modern'
+                subtitle='Ubah ruang Anda dengan keanggunan abadi dan estetika modern. Kami menciptakan interior yang memadukan fungsionalitas dengan keanggunan, disesuaikan dengan gaya unik Anda.'
             />
 
             <ProductHighlightSection />
