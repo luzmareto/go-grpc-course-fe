@@ -20,6 +20,9 @@ import AdminOrderDetail from './pages/AdminOrderDetail/AdminOrderDetail';
 import AdminCreateProduct from './pages/AdminCreateProduct/AdminCreateProduct';
 import AdminProductListSection from './components/AdminProductListSection/AdminProductListSection';
 import AdminOrderListSection from './components/AdminOrderListSection/AdminOrderListSection';
+import AdminCustomerListSection from './components/AdminCustomerListSection/AdminCustomerListSection';
+import AdminSalesReportSection from './components/AdminReportSection/AdminReportSection';
+import AdminDashboardSection from './components/AdminDashboardSection/AdminDashboardSection';
 
 const router = createBrowserRouter([
     {
@@ -61,6 +64,9 @@ const router = createBrowserRouter([
                 children: [
                     { path: 'products', element: <AdminProductListSection /> },
                     { path: 'orders', element: <AdminOrderListSection /> },
+                    { path: 'customers', element: <AdminCustomerListSection /> },
+                    { path: 'reports', element: <AdminSalesReportSection /> },
+                    { path: 'dashboard', element: <AdminDashboardSection /> },
                 ]
             },
             {
