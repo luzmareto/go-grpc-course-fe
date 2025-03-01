@@ -1,5 +1,5 @@
-import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection';
 
 function CheckoutSuccess() {
     return (
@@ -41,18 +41,19 @@ function CheckoutSuccess() {
                                     </div>
                                 </div>
 
-                                <div className="mb-4">
-                                    <h4 className="text-black mb-3">Detail Transfer Bank</h4>
-                                    <div className="border p-3">
-                                        <p className="mb-2"><strong>Nama Bank:</strong> Bank Intelektual</p>
-                                        <p className="mb-2"><strong>Nama Rekening:</strong> Furni Store Inc</p>
-                                        <p className="mb-2"><strong>Nomor Rekening:</strong> 1234-5678-9012-3456</p>
-                                    </div>
-                                </div>
-
                                 <div className="text-center">
-                                    <Link to="/shop" className="btn btn-secondary me-2">Lanjut Belanja</Link>
-                                    <Link to="/profile/orders" className="btn btn-primary">Lihat Riwayat Pesanan</Link>
+                                    <a
+                                        href={"#"}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn btn-primary mb-3"
+                                    >
+                                        Bayar Sekarang
+                                    </a>
+                                    <div>
+                                        <Link to="/shop" className="btn btn-secondary me-2">Lanjut Belanja</Link>
+                                        <Link to="/profile/orders" className="btn btn-primary">Lihat Riwayat Pesanan</Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -63,4 +64,4 @@ function CheckoutSuccess() {
     )
 }
 
-export default CheckoutSuccess
+export default CheckoutSuccess;
