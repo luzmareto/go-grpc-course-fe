@@ -1,5 +1,16 @@
+import { useState } from "react";
+
 function Footer() {
     const currentYear = new Date().getFullYear();
+    const [showModal, setShowModal] = useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Here you can add newsletter subscription logic
+        setShowModal(true);
+        // setName('');
+        // setEmail('');
+    };
 
     return (
         <footer className="footer-section">
@@ -18,7 +29,7 @@ function Footer() {
                                 <span>Langganan Newsletter</span>
                             </h3>
 
-                            <form className="row g-3">
+                            <form className="row g-3" onSubmit={handleSubmit}>
                                 <div className="col-auto">
                                     <input type="text" className="form-control" placeholder="Masukkan nama Anda" />
                                 </div>
@@ -46,6 +57,21 @@ function Footer() {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Success Modal */}
+            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none' }}>
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-body text-center p-5">
+                            <i className="bi bi-check-circle-fill display-1 mb-4"></i>
+                            <h3>Terima Kasih!</h3>
+                            <p>Anda telah berhasil berlangganan newsletter kami.</p>
+                            <button className="btn btn-primary" onClick={() => setShowModal(false)}>Tutup</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal-backdrop fade show"></div>
             </div>
         </footer>
     )

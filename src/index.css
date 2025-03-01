@@ -1196,3 +1196,7 @@ textarea {
 .site-blocks-table th.sortable {
   user-select: none;
 }
+
+.modal-dialog {
+  z-index: 9999;
+}
