@@ -39,8 +39,8 @@ function AdminProductListSection() {
                                 onSort={handleSort}
                             />
                             <SortableHeader
-                                label="Stok"
-                                sortKey="stock"
+                                label="Deskripsi"
+                                sortKey="description"
                                 currentSort={sortConfig}
                                 onSort={handleSort}
                             />
@@ -54,7 +54,7 @@ function AdminProductListSection() {
                             </td>
                             <td>Kursi Nordic</td>
                             <td>Rp775.000</td>
-                            <td>15</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, ipsam?</td>
                             <td>
                                 <button className="btn btn-secondary me-2">Edit</button>
                                 <button className="btn">Hapus</button>
