@@ -32,6 +32,12 @@ function CheckoutSuccess() {
                                                 <strong className="text-black">Rp5.500.000</strong>
                                             </div>
                                         </div>
+                                        <div className="py-2 border-bottom">
+                                            <div className="d-flex justify-content-between">
+                                                <span className="text-black">Batas waktu pembayaran:</span>
+                                                <strong className="text-black">30 November 2023 23:59</strong>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
