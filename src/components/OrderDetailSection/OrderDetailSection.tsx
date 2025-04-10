@@ -9,8 +9,6 @@ function OrderDetailSection() {
                 </button>
             </Link>
             <h2 className="section-title mb-4">Pesanan #ORD-2025000002</h2>
-            {/* <div className="d-flex justify-content-between align-items-center mb-4">
-            </div> */}
 
             <div className="row">
                 <div className="col-md-6 mb-4">
