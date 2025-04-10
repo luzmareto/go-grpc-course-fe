@@ -28,6 +28,15 @@ function OrderDetailSection() {
                     <div className="p-3 border rounded">
                         <p className="mb-2"><strong>Status Saat Ini:</strong> <span className="badge bg-success">Dikirim</span></p>
                         <p className="mb-2"><strong>Tanggal Pesanan:</strong> 20 Februari 2025</p>
+                        <div className="mt-3">
+                            <select className="form-select mb-2">
+                                <option value="pending">Menunggu</option>
+                                <option value="processing">Diproses</option>
+                                <option value="shipped">Dikirim</option>
+                                <option value="delivered">Diterima</option>
+                            </select>
+                            <button className="btn btn-primary w-100">Perbarui Status</button>
+                        </div>
                     </div>
                 </div>
 
