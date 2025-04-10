@@ -23,6 +23,7 @@ import AdminOrderListSection from './components/AdminOrderListSection/AdminOrder
 import AdminCustomerListSection from './components/AdminCustomerListSection/AdminCustomerListSection';
 import AdminSalesReportSection from './components/AdminReportSection/AdminReportSection';
 import AdminDashboardSection from './components/AdminDashboardSection/AdminDashboardSection';
+import OrderDetailSection from './components/OrderDetailSection/OrderDetailSection';
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
                 children: [
                     { path: 'change-password', element: <ChangePasswordSection /> },
                     { path: 'orders', element: <OrderHistorySection /> },
+                    { path: 'orders/:id/detail', element: <OrderDetailSection /> },
                 ]
             },
             { path: '*', element: <NotFound /> },
