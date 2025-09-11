@@ -1,6 +1,26 @@
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
+
+const loginSchema = yup.object().shape({
+    email: yup.string().email('Email tidak valid').required('Email wajib diisi'),
+    password: yup.string().required('Password wajib diisi valid').min(6, 'Password minimal 8 karakter'),
+})
+
+interface LoginFormValues {
+    email: string;
+    password: string
+}
 
 const Login = () => {
+    const form = useForm<LoginFormValues>({
+        resolver: yupresolver(loginSchema),
+    });
+
+    const submitHandler = (values: LoginFormValues) => {
+        console.log(values)
+    }
+
     return (
         <div className="login-section">
             <div className="container">
@@ -8,12 +28,12 @@ const Login = () => {
                     <div className="col-md-6 col-lg-5">
                         <div className="login-wrap p-4">
                             <h2 className="section-title text-center mb-5">Masuk</h2>
-                            <form action="#" className="login-form">
+                            <form onSubmit={form.handleSubmit(submitHandler)} className="login-form">
                                 <div className="form-group mb-4">
-                                    <input type="email" className="form-control" placeholder="Alamat Email" required />
+                                    <input type="txt" className="form-control" placeholder="Alamat Email" {...form.register('email')} />
                                 </div>
                                 <div className="form-group mb-4">
-                                    <input type="password" className="form-control" placeholder="Kata Sandi" required />
+                                    <input type="password" className="form-control" placeholder="Kata Sandi" {...form.register('password')} />
                                 </div>
                                 <div className="form-group">
                                     <button type="submit" className="btn btn-primary btn-block">Masuk</button>

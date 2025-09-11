@@ -4,25 +4,25 @@ function Navbar() {
     const { pathname } = useLocation();
 
     return (
-        <nav className="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
+        <nav className="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="luz navigation bar">
             <div className="container">
                 <Link className="navbar-brand" to="/">
-                    Furni<span>.</span>
+                    LUZ<span>SHOP</span>
                 </Link>
 
                 <button
                     className="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#navbarsFurni"
-                    aria-controls="navbarsFurni"
+                    data-bs-target="#navbarsLuz"
+                    aria-controls="navbarsLuz"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className="collapse navbar-collapse" id="navbarsFurni">
+                <div className="collapse navbar-collapse" id="navbarsLuz">
                     <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                         <li className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
                             <Link className="nav-link" to="/">Home</Link>
