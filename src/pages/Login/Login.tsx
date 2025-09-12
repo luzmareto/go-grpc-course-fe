@@ -1,7 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Swal from 'sweetalert2';
 
+
+
+// pop up menu login
 const loginSchema = yup.object().shape({
     email: yup.string().email('Email tidak valid').required('Email wajib diisi'),
     password: yup.string().required('Password wajib diisi valid').min(6, 'Password minimal 8 karakter'),
@@ -14,11 +19,16 @@ interface LoginFormValues {
 
 const Login = () => {
     const form = useForm<LoginFormValues>({
-        resolver: yupresolver(loginSchema),
+        resolver: yupResolver(loginSchema),
     });
 
     const submitHandler = (values: LoginFormValues) => {
         console.log(values)
+        Swal.fire({
+            icon: 'success',
+            title: "Login sukses",
+            confirmButtonText: 'Ok'
+        })
     }
 
     return (
@@ -30,10 +40,13 @@ const Login = () => {
                             <h2 className="section-title text-center mb-5">Masuk</h2>
                             <form onSubmit={form.handleSubmit(submitHandler)} className="login-form">
                                 <div className="form-group mb-4">
-                                    <input type="txt" className="form-control" placeholder="Alamat Email" {...form.register('email')} />
+                                    <input type="text" className={`form-control ${form.formState.errors.email ? 'is-invalid' : ''}`} placeholder="Alamat Email" {...form.register('email')} />
+                                    <div className={`text-danger ${form.formState.errors.email ? '' : 'hidden'}`} style={{height: 8}}><small>{form.formState.errors.email?.message ?? ''}</small></div>
                                 </div>
                                 <div className="form-group mb-4">
-                                    <input type="password" className="form-control" placeholder="Kata Sandi" {...form.register('password')} />
+                                    <input type="password" className={`form-control ${form.formState.errors.password ? 'is-invalid' : ''}`} placeholder="Kata Sandi" {...form.register('password')} />
+                                    <div className={`text-danger ${form.formState.errors.password ? '' : 'hidden'}`} style={{height: 8}}><small>{form.formState.errors.password?.message ?? ''}</small></div>
+                                    {/* <input type="password" className="form-control" placeholder="Kata Sandi" {...form.register('password')} /> */}
                                 </div>
                                 <div className="form-group">
                                     <button type="submit" className="btn btn-primary btn-block">Masuk</button>
