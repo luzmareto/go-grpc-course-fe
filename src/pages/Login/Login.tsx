@@ -4,15 +4,17 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Swal from 'sweetalert2';
 import FormInput from '../../components/FormInput/FormInput';
+import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
+import { AuthServiceClient } from '../../../pb/auth/auth.client';
 
 const loginSchema = yup.object().shape({
     email: yup.string().email('Email tidak valid').required('Email wajib diisi'),
-    password: yup.string().required('Password wajib diisi valid').min(6, 'Password minimal 8 karakter'),
+    password: yup.string().required('Password wajib diisi valid').min(6, 'Password minimal 6 karakter'),
 })
 
 interface LoginFormValues {
     email: string;
-    password: string
+    password: string;
 }
 
 const Login = () => {
@@ -20,8 +22,32 @@ const Login = () => {
         resolver: yupResolver(loginSchema),
     });
 
-    const submitHandler = (values: LoginFormValues) => {
+    const submitHandler = async (values: LoginFormValues) => {
         console.log(values)
+
+        // integrasi backend
+        const transport = new GrpcWebFetchTransport ({
+            baseUrl: 'http://localhost:8080',   
+        })
+        const client = new AuthServiceClient(transport);
+        const res = await client.login({
+            email: values.email,
+            password: values.password
+        })
+
+         if (res.response.base ?? true){
+            Swal.fire({
+            icon: 'error',
+            title: "Login gagal",
+            text: "Silahkan periksa kembali email dan password anda",
+            confirmButtonText: 'Ok'
+        })
+        return
+    }
+
+    console.log(res.response.accessToken);
+    localStorage.setItem('access_token',res.response.accessToken)
+
         Swal.fire({
             icon: 'success',
             title: "Login sukses",
@@ -48,7 +74,7 @@ const Login = () => {
                                     errors={form.formState.errors }
                                     name="password"
                                     register={form.register}
-                                    type="text"
+                                    type="password"
                                     placeholder="Kata Sandi"
                                 />
                                 <div className="form-group">
