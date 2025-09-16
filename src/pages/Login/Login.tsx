@@ -46,7 +46,6 @@ const Login = () => {
                                 <div className="form-group mb-4">
                                     <input type="password" className={`form-control ${form.formState.errors.password ? 'is-invalid' : ''}`} placeholder="Kata Sandi" {...form.register('password')} />
                                     <div className={`text-danger ${form.formState.errors.password ? '' : 'hidden'}`} style={{height: 8}}><small>{form.formState.errors.password?.message ?? ''}</small></div>
-                                    {/* <input type="password" className="form-control" placeholder="Kata Sandi" {...form.register('password')} /> */}
                                 </div>
                                 <div className="form-group">
                                     <button type="submit" className="btn btn-primary btn-block">Masuk</button>
