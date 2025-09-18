@@ -60,9 +60,9 @@ function Profile() {
                     title: 'Terjadi Kesalahan',
                     text: 'Silahkan coba beberapa saat lagi',
                     icon: 'error',
-                });
+                })
             }
-        };
+        }
 
         fetchProfile();
     }, []);
