@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/auth";
 import { RpcError } from "@protobuf-ts/runtime-rpc";
+import useGrpcApi from "../../hooks/useGrpcApi";
 
 const changePasswordSchema = yup.object().shape({
     current_password: yup.string().required('Kata sandi saat ini wajib diisi'),
@@ -22,72 +23,40 @@ interface ChangePasswordFromValues{
 }
 
 function ChangePasswordSection() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
-    const logoutUser = useAuthStore(state => state.logout);
+    const submitApi = useGrpcApi();
+
+
     const form = useForm<ChangePasswordFromValues>({
         resolver: yupResolver(changePasswordSchema)
     });
 
     const submitHandler = async (values: ChangePasswordFromValues) => {
-        try {
-            setIsLoading(true);
-         const res = await getAuthClient().changePassword({
-            newPassword: values.new_password,
-            newPasswordConfirmation: values.confirm_new_password,
-            oldPassword: values.current_password,
-        });
-
-
-        if (res.response.base?.isError ?? true) {
+    await submitApi.callApi(getAuthClient().changePassword({
+        newPassword: values.new_password,
+        newPasswordConfirmation: values.confirm_new_password,
+        oldPassword: values.current_password,
+    }), {
+        defaultError: (res) => {
             if (res.response.base?.message === 'Old password is not match') {
-                Swal.fire({
-                icon: 'error',
-                title: 'Ganti Password Gagal',
-                text: 'Kata sandi lama tidak sesuai',
-            })
-            return
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Ganti Password Gagal',
+                    text: 'Kata sandi lama tidak sesuai',
+                })
             }
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                text: 'Silahkan coba beberapa saat lagi',
-            })
-            return
-        }
+        },
+        useDefaultError: false,
+    });
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Password Berhasil Diubah',
-        })
-        //reset value form ketika berhasil ubah password 
-        form.reset();
+    Swal.fire({
+        icon: 'success',
+        title: 'Password Berhasil Diubah',
+    })
 
-        return
-        } catch (e) {
-             if (e instanceof RpcError) {
-                                    if (e.code === 'UNAUTHENTICATED') {
-                                        logoutUser();
-                                        localStorage.removeItem('access_token');
-                                        Swal.fire({
-                                            title: 'Sesi Telah Berakhir',
-                                            text: 'Silahkan login kembali',
-                                            icon: 'warning',
-                                        });
-                                        navigate('/');
-                                        return;
-                                    }
-                                }
-                
-                                Swal.fire({
-                                    title: 'Terjadi Kesalahan',
-                                    text: 'Silahkan coba beberapa saat lagi',
-                                    icon: 'error',
-                                })
-        } finally {
-            setIsLoading(false)
-        }
+    form.reset();    
     }
+     
+        
 
     return (
         <div className="p-4 p-lg-5 border bg-white">
@@ -99,7 +68,7 @@ function ChangePasswordSection() {
                     register={form.register}
                     type="password"
                     label="Kata Sandi Saat Ini"
-                    disabled={isLoading}
+                    disabled={submitApi.isLoading}
                 />
                 <FormInput<ChangePasswordFromValues>
                     errors={form.formState.errors}
@@ -107,7 +76,7 @@ function ChangePasswordSection() {
                     register={form.register}
                     type="password"
                     label="Kata Sandi Baru"
-                    disabled={isLoading}
+                    disabled={submitApi.isLoading}
                 />
                 <FormInput<ChangePasswordFromValues>
                     errors={form.formState.errors}
@@ -115,9 +84,9 @@ function ChangePasswordSection() {
                     register={form.register}
                     type="password"
                     label="Konfirmasi Kata Sandi Baru"
-                    disabled={isLoading}
+                    disabled={submitApi.isLoading}
                 />
-            <button type="submit" className="btn btn-primary" disabled={isLoading}>Perbarui Kata Sandi</button>
+            <button type="submit" className="btn btn-primary" disabled={submitApi.isLoading}>Perbarui Kata Sandi</button>
             </form>
         </div>
     )
