@@ -1,3 +1,5 @@
-1. code dimulai dari branch Custom-Hook-API-Call
-2. git merge "Setup-Form-Tambah-Produk-Admin-FE"
-3. Input Rupiah FE
+Code dimulai dari branch Custom-Hook-API-Call
+
+nama branch                                 Deskripsi
+Setup-Form-Tambah-Produk-Admin-FE"          Custom Create Product dari sisi (belum integrasi be)
+Input-Rupiah                                Merapihkan input di kolom harga agar menjadi "Rp" dan auto Separator (belum integrasi be)
