@@ -21,7 +21,7 @@ function AdminEditProduct() {
     const detailApi = useGrpcApi();
     const [uploadLoading, setUploadLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    const  createProductApi = useGrpcApi();
+    const editProductApi = useGrpcApi();
     const [defaultValues, setDefaultValues] = useState<ProductFormValues | undefined>(undefined)
 
     useEffect(() => {
@@ -45,11 +45,14 @@ function AdminEditProduct() {
     const submitHandler = async (values: ProductFormValues) => {
         try {
              setUploadLoading(true);
-        const formData = new FormData();
-        formData.append("image",values.image[0]);
 
-        const uploadResponse = await axios.post<uploadImageResponse>("http://localhost:3000/product/upload", formData)
-        if (uploadResponse.status !== 200) {
+             let newImageFileName = "";
+             if (values.image.length >0) {
+                const formData = new FormData();
+                formData.append("image",values.image[0]);
+
+                const uploadResponse = await axios.post<uploadImageResponse>("http://localhost:3000/product/upload", formData)
+                if (uploadResponse.status !== 200) {
             Swal.fire({
                 title: "Upload Gambar Gagal",
                 text: "Silahkan coba beberapa saat lagi",
@@ -58,15 +61,19 @@ function AdminEditProduct() {
             return
         }
 
-        await createProductApi.callApi(getProductClient().createProduct({
+        newImageFileName = uploadResponse.data.fileName;
+    }
+        http://localhost:3000/storage/product/ image.jpeg
+        await editProductApi.callApi(getProductClient().editProduct({
+            id: id ?? "",
             description: values.description ?? "",
-            imageFileName: uploadResponse.data.fileName,
+            imageFileName: newImageFileName || (values.imageUrl?.split("/").pop() ?? ""),
             name: values.name,
             price: values.price,
         }));
 
         Swal.fire({
-            title: "Tambah Produk Sukses",
+            title: "Edit Produk Sukses",
             icon: "success"
         })
 
@@ -86,8 +93,9 @@ function AdminEditProduct() {
                         <div className="col-md-8">
                             <ProductForm 
                                 onSubmit={submitHandler} 
-                                disabled={createProductApi.isLoading || uploadLoading || detailApi.isLoading}
+                                disabled={editProductApi.isLoading || uploadLoading || detailApi.isLoading}
                                 defaultValues={defaultValues}
+                                isEdit
                             />
                         </div>
                     </div>
