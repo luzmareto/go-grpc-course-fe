@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import { type ProductFormValues } from "../../types/product";
+import { useEffect } from "react";
 
 const createProductSchema = yup.object().shape({
     name: yup.string().required("Nama produk wajib diisi"),
@@ -21,16 +22,24 @@ const createProductSchema = yup.object().shape({
 interface ProductFormProps {
     onSubmit: (values: ProductFormValues) => void;
     disabled?: boolean;
+    defaultValues?: ProductFormValues; 
 }
 
 function ProductForm(props: ProductFormProps) {
     const form = useForm<ProductFormValues>({
-        resolver: yupResolver(createProductSchema)
+        resolver: yupResolver(createProductSchema),
+        defaultValues: props.defaultValues,
     });
 
     const submitHandler = (values: ProductFormValues) => {
         props.onSubmit(values)
     }
+
+    useEffect(() => {
+        if (props.defaultValues){
+            form.reset(props.defaultValues);
+        }
+    }, [props.defaultValues]);
 
     return (
         // layout tambah product di admin
@@ -66,6 +75,10 @@ function ProductForm(props: ProductFormProps) {
                     placeholder="Deskripsi Produk..."
                     disabled={props.disabled}
                />
+
+               {props.defaultValues?.imageUrl &&
+                    <img className="w-100" src={props.defaultValues.imageUrl} alt="product_image"/>
+               }
                <FormInput<ProductFormValues>
                     errors={form.formState.errors}
                     name="image"
