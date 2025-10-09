@@ -14,7 +14,6 @@ interface FormInputProps<T extends Record<string, any>> {
 
 // eslint-disable-next-line
 function FormInput<T extends Record<string, any>>(props: FormInputProps<T>) {
-
   const renderInput = () => {
     if (props.type === "image"){
         return (
