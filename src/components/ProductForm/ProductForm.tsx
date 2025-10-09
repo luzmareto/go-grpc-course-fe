@@ -12,18 +12,15 @@ const createProductSchema = yup.object().shape({
     image: yup.mixed<FileList>().required("Gambar produk wajib diisi")
         .test("fileLength", "Gambar produk wajib diisi", (fileList) => {
             return fileList.length > 0
-            // kode cadangan:   return fileList && fileList.length > 0
         })
         .test("fileType", "Format gambar tidak valid", (fileList) => {
             return fileList && fileList.length > 0 ? ["image/jpeg", "image/png"].includes(fileList[0].type) : true
         })
 })
 
-
-
-
 interface ProductFormProps {
     onSubmit: (values: ProductFormValues) => void;
+    disabled?: boolean;
 }
 
 function ProductForm(props: ProductFormProps) {
@@ -47,6 +44,7 @@ function ProductForm(props: ProductFormProps) {
                     label="Nama Produk"
                     placeholder="Nama Produk"
                     labelRequired
+                    disabled={props.disabled}
                />
                 
                <CurrencyInput<ProductFormValues>
@@ -56,6 +54,7 @@ function ProductForm(props: ProductFormProps) {
                     label="Harga"
                     placeholder="Harga Produk"
                     labelRequired  
+                    disabled={props.disabled}
                />
 
                 <FormInput<ProductFormValues>
@@ -65,6 +64,7 @@ function ProductForm(props: ProductFormProps) {
                     type="textarea"
                     label="Deskripsi"
                     placeholder="Deskripsi Produk..."
+                    disabled={props.disabled}
                />
                <FormInput<ProductFormValues>
                     errors={form.formState.errors}
@@ -74,10 +74,11 @@ function ProductForm(props: ProductFormProps) {
                     label="Gambar Produk"
                     placeholder="Gambar Produk"
                     labelRequired
+                    disabled={props.disabled}
                />
 
                 <div className="form-group">
-                    <button className="btn btn-primary" type="submit">Simpan Produk</button>
+                    <button className="btn btn-primary" type="submit" disabled={props.disabled}>Simpan Produk</button>
                 </div>
             </form>
             

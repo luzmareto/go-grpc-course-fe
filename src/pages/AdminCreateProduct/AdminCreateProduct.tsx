@@ -6,19 +6,21 @@ import { getProductClient } from '../../api/grpc/client';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useState } from 'react';
 
 interface uploadImageResponse {
-    file_name: string;
+    fileName: string;
     message: string;
     success: boolean;
 }
 
 function AdminCreateProduct() {
+    const [uploadLoading, setUploadLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const  createProductApi = useGrpcApi();
     const submitHandler = async (values: ProductFormValues) => {
-        console.log(values)
-
+        try {
+             setUploadLoading(true);
         const formData = new FormData();
         formData.append("image",values.image[0]);
 
@@ -34,17 +36,21 @@ function AdminCreateProduct() {
 
         await createProductApi.callApi(getProductClient().createProduct({
             description: values.description ?? "",
-            imageFileName: uploadResponse.data.file_name,
+            imageFileName: uploadResponse.data.fileName,
             name: values.name,
             price: values.price,
         }));
 
         Swal.fire({
-            title: "Tambah Produt Sukses",
+            title: "Tambah Produk Sukses",
             icon: "success"
         })
 
         navigate("/admin/products");
+        } finally {
+            setUploadLoading(false);    
+        }
+       
     }
     return (
         <>
@@ -54,7 +60,10 @@ function AdminCreateProduct() {
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-md-8">
-                            <ProductForm onSubmit={submitHandler}/>
+                            <ProductForm 
+                                onSubmit={submitHandler} 
+                                disabled={createProductApi.isLoading || uploadLoading}
+                            />
                         </div>
                     </div>
                 </div>
