@@ -1,7 +1,8 @@
-Code dimulai dari branch Custom-Hook-API-Call
+Merge dimulai dari branch Custom-Hook-API-Call
 
 No      Nama branch                            Deskripsi
 1        Setup-Form-Tambah-Produk-Admin-FE"    Custom Create Product dari sisi (belum integrasi be)
 2        Input-Rupiah                          Merapihkan input di kolom harga agar menjadi "Rp" dan auto Separator (belum integrasi be)
 3        Integrasi-Tambah-Produk-Admin-FE      [Solved]error saat klik simpan product di fitur create product 
 4.       Integrasi-List-Produk-Admin           integrasi list product dan shortir
+5.       Integrasi-Highlight-Produk-FE         membuat 3 product highlight di bagian home
