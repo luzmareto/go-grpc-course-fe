@@ -4,6 +4,8 @@ import useGrpcApi from "../../hooks/useGrpcApi";
 import { getCartClient, getProductClient } from "../../api/grpc/client";
 import { formatToIDR } from "../../utils/number";
 import Swal from "sweetalert2";
+import { useAuthStore } from "../../store/auth";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface Product {
     id: string;
@@ -13,11 +15,13 @@ interface Product {
 }
 
 function ProductListSection() {
+    const isLoggedIn  = useAuthStore(state => state.isLoggedIn);
     const addToCartApi = useGrpcApi();
     const listApi = useGrpcApi();
     const [currentPage, setCurrentPage] = useState(1);
     const [items, setItems] = useState<Product[]>([]);
     const [totalPages, setTotalPages] = useState<number>(0);
+    const navigate = useNavigate();
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -45,6 +49,15 @@ function ProductListSection() {
     }, [currentPage]);
 
     const addToCartHandler = async (productId: string) => {
+        if (!isLoggedIn) {
+            navigate('/login')
+            return
+        }
+
+        if (addToCartApi.isLoading) {
+            return
+        }
+      
         await addToCartApi.callApi(getCartClient().addProductToCart({
             productId,
         }));
@@ -62,7 +75,7 @@ function ProductListSection() {
 
                     {items.map(item => (
                     <div key={item.id } className="col-12 col-md-4 col-lg-3 mb-5">
-                        <a className="product-item" href="#">
+                        <div className="product-item">
                             <img src={item.imageUrl} className="img-fluid product-thumbnail" />
                             <h3 className="product-title">{item.name}</h3>
                             <strong className="product-price">{formatToIDR(item.price)}</strong>
@@ -70,7 +83,7 @@ function ProductListSection() {
                             <span className="icon-cross" onClick={() => addToCartHandler(item.id)}>
                                 <img src="images/cross.svg" className="img-fluid" />
                             </span>
-                        </a>
+                        </div>
                     </div>
                     ))}
 
