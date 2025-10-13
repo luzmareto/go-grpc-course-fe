@@ -69,6 +69,7 @@ const router = createBrowserRouter([
                 element: <AdminDashboard />,
                 children: [
                     { path: 'products', element: <AdminProductListSection /> },
+                    { path: 'product', element: <AdminProductListSection /> },
                     { path: 'orders', element: <AdminOrderListSection /> },
                     { path: 'customers', element: <AdminCustomerListSection /> },
                     { path: 'reports', element: <AdminSalesReportSection /> },
@@ -84,7 +85,9 @@ const router = createBrowserRouter([
             },
             { path: "order", element: <AdminOrderDetail /> },
             { path: "products/create", element: <AdminCreateProduct /> },
+            { path: "product/create", element: <AdminCreateProduct /> },
             { path: "products/:id/edit", element: <AdminEditProduct /> },
+            { path: "product/:id/edit", element: <AdminEditProduct /> },
         ]
     }
 ])
