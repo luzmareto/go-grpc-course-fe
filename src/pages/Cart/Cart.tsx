@@ -34,9 +34,10 @@ function Cart() {
                 quantity: Number(item.quantity),
                 total: item.productPrice * Number(item.quantity),
             }));
-            setItems
+            setItems(newItems)
             setTotalPrice(newItems.reduce<number>((currentValue, item) => currentValue + item.total, 0))
         }
+        
 
         fetchData();
     }, []);
