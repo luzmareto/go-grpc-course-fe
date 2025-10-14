@@ -18,11 +18,11 @@ interface CartItem {
 
 function Cart() {
     const listApi = useGrpcApi();
+    const deleteApi = useGrpcApi();
     const [items, setItems] = useState<CartItem[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
 
-    useEffect (() => {
-        const fetchData = async () => {
+const fetchData = async () => {
             const rest = await listApi.callApi(getCartClient().listCart({}));
 
             const newItems = rest.response.items.map<CartItem>(item => ({
@@ -37,10 +37,20 @@ function Cart() {
             setItems(newItems)
             setTotalPrice(newItems.reduce<number>((currentValue, item) => currentValue + item.total, 0))
         }
+
+    useEffect (() => {
+        
         
 
         fetchData();
     }, []);
+
+    const deleteCartItemHandler = async (cartId: string) => {
+        await deleteApi.callApi(getCartClient().deleteCart({
+            cartId: cartId,
+        }));
+        await fetchData();
+    }
 
     return (
         <>
@@ -85,7 +95,7 @@ function Cart() {
 
                                             </td>
                                             <td>{formatToIDR(item.total)}</td>
-                                            <td><a href="#" className="btn btn-black btn-sm">X</a></td>
+                                            <td><div className="btn btn-black btn-sm" onClick={() => deleteCartItemHandler(item.id)}>X</div></td>
                                         </tr> 
                                         ))}
                                     </tbody>
