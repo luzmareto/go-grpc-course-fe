@@ -58,6 +58,7 @@ const fetchData = async () => {
 
             <div className="untree_co-section before-footer-section">
                 <div className="container">
+                    {items.length > 0 && 
                     <div className="row mb-5">
                         <form className="col-md-12" method="post">
                             <div className="site-blocks-table">
@@ -103,6 +104,10 @@ const fetchData = async () => {
                             </div>
                         </form>
                     </div>
+                    }
+                    {items.length === 0 &&
+                        <h3 className='text-center text-black mb-5'> Keranjang Belanjamu Kosong </h3>
+                    }
 
                     <div className="row">
                         <div className="col-md-6">
@@ -139,9 +144,14 @@ const fetchData = async () => {
 
                                     <div className="row">
                                         <div className="col-md-12">
+                                            {items.length > 0 &&
                                             <Link to="/checkout">
                                                 <button className="btn btn-black btn-lg py-3 btn-block">Lanjutkan ke Pembayaran</button>
                                             </Link>
+                                            }
+                                            {items.length === 0 &&
+                                            <button className="btn btn-black btn-lg py-3 btn-block" disabled>Lanjutkan ke Pembayaran</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
