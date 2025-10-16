@@ -2,7 +2,7 @@ import ProductHighlightSection from '../../components/ProductHighlightSection/Pr
 import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection'
 import { Link } from 'react-router-dom'
 import useGrpcApi from '../../hooks/useGrpcApi'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getCartClient } from '../../api/grpc/client';
 import { formatToIDR } from '../../utils/number';
 
@@ -20,6 +20,7 @@ function Cart() {
     const listApi = useGrpcApi();
     const deleteApi = useGrpcApi();
     const updateQuantityApi = useGrpcApi();
+    const timeoutRef = useRef<Record<string, number>>({});
     const [items, setItems] = useState<CartItem[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -42,16 +43,15 @@ const fetchData = async () => {
     useEffect (() => {
         fetchData();
 
-          // 🔔 dengarkan event global "cart-updated"
-  const handleCartUpdated = () => {
-    fetchData();
-  };
+        const handleCartUpdated = () => {
+            fetchData();
+        };
 
-  window.addEventListener("cart-updated", handleCartUpdated);
+        window.addEventListener("cart-updated", handleCartUpdated);
 
-  // cleanup event saat komponen di-unmount
-  return () => {
-    window.removeEventListener("cart-updated", handleCartUpdated);
+        // cleanup event saat komponen di-unmount
+        return () => {
+            window.removeEventListener("cart-updated", handleCartUpdated);
   };
         
     }, []);
@@ -87,10 +87,13 @@ const fetchData = async () => {
             return
         }
         
-        await updateQuantityApi.callApi(getCartClient().updateCartQuantity({
-            cartId: cartId,
-            newQuantity: BigInt(newQuantity),
-        }))
+        clearTimeout(timeoutRef.current[cartId]);
+        timeoutRef.current[cartId] = setTimeout(async() => {
+            await updateQuantityApi.callApi(getCartClient().updateCartQuantity({
+                cartId: cartId,
+                newQuantity: BigInt(newQuantity),
+            }))
+        }, 300)
     }
 
     return (
