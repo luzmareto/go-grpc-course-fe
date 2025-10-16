@@ -56,7 +56,9 @@ function ProductHighlightSection(props: ProductHighlightSectionProps) {
             Swal.fire({
                 title: 'Berhasil Menambahkan Ke Keranjang Belanja',
                 icon: 'success',
-            })
+            });
+            window.dispatchEvent(new Event("cart-updated"));
+
         }
 
     return (
