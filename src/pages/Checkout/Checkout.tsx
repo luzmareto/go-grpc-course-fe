@@ -1,6 +1,13 @@
 import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection'
+import {useLocation} from 'react-router-dom'
+import { CartCheckoutState } from '../../types/cart';
+import { formatToIDR } from '../../utils/number';
 
 function Checkout() {
+    const location = useLocation();
+    const checkoutState = location.state as CartCheckoutState | null;
+    const products = checkoutState?.products ?? [];
+    const totalPrice = checkoutState?.total ?? 0;
     return (
         <>
             <PlainHeroSection title='Checkout' />
@@ -58,21 +65,19 @@ function Checkout() {
                                                 <th>Total</th>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Produk 1 <strong className="mx-2">x</strong> 1</td>
-                                                    <td>Rp3.875.000</td>
+                                                {products.map(product => (
+                                                    <tr key={product.id}>
+                                                    <td>{product.name} <strong className="mx-2">x</strong> {product.quantity}</td>
+                                                    <td>{formatToIDR(product.price)}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Produk 2 <strong className="mx-2">x</strong> 1</td>
-                                                    <td>Rp1.550.000</td>
-                                                </tr>
+                                                ))}
                                                 <tr>
                                                     <td className="text-black font-weight-bold"><strong>Subtotal Keranjang</strong></td>
-                                                    <td className="text-black">Rp5.425.000</td>
+                                                    <td className="text-black">{formatToIDR(totalPrice)}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="text-black font-weight-bold"><strong>Total Pesanan</strong></td>
-                                                    <td className="text-black font-weight-bold"><strong>Rp5.425.000</strong></td>
+                                                    <td className="text-black font-weight-bold"><strong>{formatToIDR(totalPrice)}</strong></td>
                                                 </tr>
                                             </tbody>
                                         </table>

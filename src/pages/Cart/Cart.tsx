@@ -1,10 +1,11 @@
 import ProductHighlightSection from '../../components/ProductHighlightSection/ProductHighlightSection'
 import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useGrpcApi from '../../hooks/useGrpcApi'
 import { useEffect, useRef, useState } from 'react';
 import { getCartClient } from '../../api/grpc/client';
 import { formatToIDR } from '../../utils/number';
+import { CartCheckoutState } from '../../types/cart';
 
 interface CartItem {
     id: string;
@@ -16,13 +17,17 @@ interface CartItem {
     total: number;
 }
 
+
+
 function Cart() {
+    const navigate = useNavigate();
     const listApi = useGrpcApi();
     const deleteApi = useGrpcApi();
     const updateQuantityApi = useGrpcApi();
     const timeoutRef = useRef<Record<string, number>>({});
     const [items, setItems] = useState<CartItem[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
+ 
 
 const fetchData = async () => {
             const rest = await listApi.callApi(getCartClient().listCart({}));
@@ -93,7 +98,25 @@ const fetchData = async () => {
                 cartId: cartId,
                 newQuantity: BigInt(newQuantity),
             }))
-        }, 300)
+        }, 300);
+    }
+
+    const checkoutHandler = () => {
+        const checkoutState: CartCheckoutState = {
+            cartIds:items.map(item => item.id),
+            products: items.map(item => ({
+                id: item.product_id,
+                name: item.product_name,
+                price: item.product_price,
+                quantity: item.quantity,
+                total: item.total, 
+            })),
+            total: totalPrice,
+        };
+
+        navigate('/checkout', {
+            state: checkoutState,
+        })
     }
 
     return (
@@ -200,9 +223,12 @@ const fetchData = async () => {
                                     <div className="row">
                                         <div className="col-md-12">
                                             {items.length > 0 &&
-                                            <Link to="/checkout">
-                                                <button className="btn btn-black btn-lg py-3 btn-block">Lanjutkan ke Pembayaran</button>
-                                            </Link>
+                                            <button 
+                                                className="btn btn-black btn-lg py-3 btn-block"
+                                                onClick={checkoutHandler}
+                                                >
+                                                    Lanjutkan ke Pembayaran
+                                                </button>
                                             }
                                             {items.length === 0 &&
                                             <button className="btn btn-black btn-lg py-3 btn-block" disabled>Lanjutkan ke Pembayaran</button>
