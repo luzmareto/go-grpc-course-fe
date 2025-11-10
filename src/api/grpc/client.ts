@@ -2,12 +2,14 @@ import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 import { AuthServiceClient, IAuthServiceClient } from "../../../pb/auth/auth.client";
 import { IProductServiceClient, ProductServiceClient } from "../../../pb/product/product.client";
 import { CartServiceClient, ICartServiceClient } from "../../../pb/cart/cart.client";
+import { IOrderServiceClient, OrderServiceClient } from "../../../pb/order/order.client";
 import { authInterceptor } from "./auth-interceptor";
 
 let webTransport: GrpcWebFetchTransport | null = null;
 let authClient: IAuthServiceClient | null = null;
 let productClient: IProductServiceClient | null = null;
 let cartClient: ICartServiceClient | null = null;
+let orderClient: IOrderServiceClient | null = null;
 
 const getWebTransport = () => {
     if (webTransport === null) {
@@ -45,4 +47,10 @@ export const getCartClient = () => {
     return cartClient;
 }
     
+export const getOrderClient = () => {
+    if (orderClient === null) {
+        orderClient = new OrderServiceClient(getWebTransport());
+    }
     
+    return orderClient;
+}

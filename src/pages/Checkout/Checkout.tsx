@@ -1,13 +1,72 @@
 import PlainHeroSection from '../../components/PlainHeroSection/PlainHeroSection'
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import { CartCheckoutState } from '../../types/cart';
 import { formatToIDR } from '../../utils/number';
+import { useForm } from 'react-hook-form';
+import FormInput from '../../components/FormInput/FormInput';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAuthStore } from '../../store/auth';
+import useGrpcApi from '../../hooks/useGrpcApi';
+import { getCartClient, getOrderClient } from '../../api/grpc/client';
+import { useEffect } from 'react';
+
+const checkoutSchema = yup.object().shape({
+    fullName: yup.string().required('Nama lengkap wajib diisi'),
+    address: yup.string().required('Alamat wajib diisi'),
+    phoneNumber: yup.string().required('Nomor telepon wajib diisi'),
+}) 
+
+interface CheckoutFormValues {
+    fullName: string;
+    address: string;
+    phoneNumber: string;
+    notes?: string;
+}
 
 function Checkout() {
+    const navigate = useNavigate();
+    const submitApi = useGrpcApi();
+    const deleteCartApi = useGrpcApi();
+    const authFullname = useAuthStore(state => state.jwtPayload?.full_name ?? "");
+    const form = useForm<CheckoutFormValues>({
+        resolver: yupResolver(checkoutSchema),
+        defaultValues: {
+            fullName: authFullname,
+        }
+    })
     const location = useLocation();
     const checkoutState = location.state as CartCheckoutState | null;
     const products = checkoutState?.products ?? [];
     const totalPrice = checkoutState?.total ?? 0;
+    const cartIds = checkoutState?.cartIds ?? [];
+    const submitLoading = submitApi.isLoading || deleteCartApi.isLoading;
+    
+    useEffect(() => {
+        if (!checkoutState) {
+            navigate('/cart', {state: null});
+        }
+    }, [checkoutState]);
+
+    const submitHandler = () => {
+        form.handleSubmit(async(values: CheckoutFormValues) => {
+            const res = await submitApi.callApi(getOrderClient().createOrder({
+                address: values.address,
+                fullName: values.fullName,
+                notes: values.notes ?? "",
+                phoneNumber: values.phoneNumber,
+                products: products.map(product => ({
+                    id: product.id,
+                    quantity: BigInt(product.quantity),
+                }))
+            }));
+
+            await Promise.all(cartIds.map(id => deleteCartApi.callApi(getCartClient().deleteCart({cartId: id,}))))
+
+            navigate("/checkout/success", { state: null });
+        })();
+    }
+
     return (
         <>
             <PlainHeroSection title='Checkout' />
@@ -20,35 +79,58 @@ function Checkout() {
                             <div className="p-3 p-lg-5 border bg-white">
                                 <div className="form-group row">
                                     <div className="col-md-12">
-                                        <label htmlFor="c_fname" className="text-black">Nama Lengkap <span
-                                            className="text-danger">*</span></label>
-                                        <input type="text" className="form-control" id="c_fname" name="c_fname"
-                                            placeholder="Nama Lengkap"
+                                        <FormInput 
+                                        errors={form.formState.errors}
+                                        name='fullName'
+                                        register={form.register}
+                                        type='text'
+                                        labelRequired
+                                        label='Nama Lengkap'
+                                        placeholder='Nama Lengkap'
+                                        disabled={submitLoading}
                                         />
+                                </div>
+                                </div>
+                                <div className="form-group row">
+                                    <div className="col-md-12">
+                                        <FormInput 
+                                        errors={form.formState.errors}
+                                        name='address'
+                                        register={form.register}
+                                        type='text'
+                                        labelRequired
+                                        label='Alamat'
+                                        placeholder='Alamat'
+                                        disabled={submitLoading}
+                                        />  
                                     </div>
                                 </div>
 
                                 <div className="form-group row">
                                     <div className="col-md-12">
-                                        <label htmlFor="c_address" className="text-black">Alamat <span
-                                            className="text-danger">*</span></label>
-                                        <input type="text" className="form-control" id="c_address" name="c_address"
-                                            placeholder="Alamat Jalan" />
-                                    </div>
-                                </div>
-
-                                <div className="form-group row">
-                                    <div className="col-md-12">
-                                        <label htmlFor="c_phone" className="text-black">Nomor Telepon <span className="text-danger">*</span></label>
-                                        <input type="text" className="form-control" id="c_phone" name="c_phone"
-                                            placeholder="Nomor Telepon" />
+                                        <FormInput 
+                                        errors={form.formState.errors}
+                                        name='phoneNumber'
+                                        register={form.register}
+                                        type='text'
+                                        labelRequired
+                                        label='Nomor Telepon'
+                                        placeholder='Nomor Telepon'
+                                        disabled={submitLoading}
+                                        />  
                                     </div>
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="c_order_notes" className="text-black">Catatan Pesanan</label>
-                                    <textarea name="c_order_notes" id="c_order_notes" cols={30} rows={5} className="form-control"
-                                        placeholder="Tulis catatan Anda di sini..."></textarea>
+                                    <FormInput 
+                                        errors={form.formState.errors}
+                                        name='notes'
+                                        register={form.register}
+                                        type='textarea'
+                                        label='Catatan Pesanan'
+                                        placeholder='Tulis catatan Anda di sini...'
+                                        disabled={submitLoading}
+                                        />  
                                 </div>
 
                             </div>
@@ -83,7 +165,13 @@ function Checkout() {
                                         </table>
 
                                         <div className="form-group">
-                                            <button className="btn btn-black btn-lg py-3 btn-block">Buat Pesanan</button>
+                                            <button 
+                                            className="btn btn-black btn-lg py-3 btn-block"
+                                            onClick={submitHandler}
+                                            disabled={submitLoading}
+                                            >
+                                                Buat Pesanan
+                                            </button>
                                         </div>
 
                                     </div>
