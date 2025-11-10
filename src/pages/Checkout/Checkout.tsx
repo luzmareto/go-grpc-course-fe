@@ -63,7 +63,7 @@ function Checkout() {
 
             await Promise.all(cartIds.map(id => deleteCartApi.callApi(getCartClient().deleteCart({cartId: id,}))))
 
-            navigate("/checkout/success", { state: null });
+            navigate(`/checkout/${res.response.id}/success`, { state: null });
         })();
     }
 
