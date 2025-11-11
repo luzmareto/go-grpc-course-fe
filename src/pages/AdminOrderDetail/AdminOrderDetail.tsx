@@ -6,23 +6,44 @@ import { DetailOrderRequest, DetailOrderResponse } from "../../../pb/order/order
 import OrderStatusBadge from "../../components/OrderStatusBadge/OrderStatusBadge";
 import { converTimestampToDate } from "../../utils/date";
 import { formatToIDR } from "../../utils/number";
+import { ORDER_STATUS_CANCELED, ORDER_STATUS_DONE, ORDER_STATUS_PAID, ORDER_STATUS_SHIPPED, ORDER_STATUS_UNPAID } from "../../constants/order";
+import Swal from "sweetalert2";
 
 function AdminOrderDetail() {
     const {id} =  useParams();
     const detailApi =  useGrpcApi();
+    const updateStatusApi =  useGrpcApi();
     const [apiResponse, setApiResponse] = useState<DetailOrderResponse | null>(null);
+    const [newOrderStatus, setNewOrderStatus] = useState<string>('');
     const items = apiResponse?.items ?? [];
     const totalPrice = apiResponse?.total ?? 0;
+    const orderStatusCode = apiResponse?.orderStatusCode ?? "" ;
 
-    useEffect (() => {
-        const fetchData = async () => {
+    const fetchData = async () => {
             const res = await detailApi.callApi(getOrderClient().detailOrder({id: id ?? ""}));
         
             setApiResponse(res.response);
         }
 
+    useEffect (() => {
+
         fetchData();
     }, []);
+
+    const updateStatusHandler = async () => {
+        await updateStatusApi.callApi(getOrderClient().updateOrderStatus({
+            orderId: id ?? "",
+            newStatusCode: newOrderStatus,
+        }));
+
+        await Swal.fire({
+            icon: 'success',
+            title: 'Status Order Berhasil Diperbarui'
+        })
+
+        await fetchData();
+    }
+
     return (
         <div className="admin-dashboard py-5">
             <div className="container">
@@ -52,18 +73,31 @@ function AdminOrderDetail() {
                             <div className="p-3 border rounded">
                                 <p className="mb-2">
                                     <strong>Status Saat Ini:</strong>
-                                <OrderStatusBadge code={apiResponse?.orderStatusCode ?? ""} />
+                                <OrderStatusBadge code={orderStatusCode} />
                                 </p>
                                 <p className="mb-2"><strong>Tanggal Pesanan:</strong>{converTimestampToDate(apiResponse?.createdAt)}</p>
+                                {[ORDER_STATUS_UNPAID, ORDER_STATUS_PAID, ORDER_STATUS_SHIPPED].includes(orderStatusCode) &&
                                 <div className="mt-3">
-                                    <select className="form-select mb-2">
-                                        <option value="pending">Menunggu</option>
-                                        <option value="processing">Diproses</option>
-                                        <option value="shipped">Dikirim</option>
-                                        <option value="delivered">Diterima</option>
-                                    </select>
-                                    <button className="btn btn-primary w-100">Perbarui Status</button>
-                                </div>
+                                        <select 
+                                            className="form-select mb-2"
+                                            onChange={(e) => setNewOrderStatus(e.target.value)}
+                                            value={newOrderStatus}
+                                            >
+                                            <option value="">-</option>
+                                            {orderStatusCode === ORDER_STATUS_UNPAID && <option value={ORDER_STATUS_PAID}>Sudah Dibayar</option>}
+                                            {orderStatusCode === ORDER_STATUS_UNPAID && <option value={ORDER_STATUS_CANCELED}>Dibatalkan</option>} 
+                                            {orderStatusCode === ORDER_STATUS_PAID && <option value={ORDER_STATUS_SHIPPED}>Sedang Dikirim</option>} 
+                                            {orderStatusCode === ORDER_STATUS_SHIPPED && <option value={ORDER_STATUS_DONE}>Selesai</option>}
+                                        </select>
+                                        <button 
+                                            className="btn btn-primary w-100" 
+                                            onClick={updateStatusHandler}
+                                            disabled={!newOrderStatus || updateStatusApi.isLoading}
+                                        >
+                                            Perbarui Status
+                                        </button>
+                                    </div>
+                                }
                             </div>
                         </div>
 
