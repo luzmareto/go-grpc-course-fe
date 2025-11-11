@@ -64,6 +64,7 @@ const router = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout />,
         children: [
+            { path: "orders/:id/detail", element: <AdminOrderDetail /> },
             {
                 path: '',
                 element: <AdminDashboard />,
@@ -83,7 +84,6 @@ const router = createBrowserRouter([
                     { path: 'change-password', element: <ChangePasswordSection /> },
                 ]
             },
-            { path: "order", element: <AdminOrderDetail /> },
             { path: "products/create", element: <AdminCreateProduct /> },
             { path: "product/create", element: <AdminCreateProduct /> },
             { path: "products/:id/edit", element: <AdminEditProduct /> },
