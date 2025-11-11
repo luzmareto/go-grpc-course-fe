@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom"
 import useGrpcApi from "../../hooks/useGrpcApi"
 import { useEffect, useState } from "react";
 import { getOrderClient } from "../../api/grpc/client";
-import { DetailOrderRequest, DetailOrderResponse } from "../../../pb/order/order";
+import { DetailOrderResponse } from "../../../pb/order/order";
 import OrderStatusBadge from "../../components/OrderStatusBadge/OrderStatusBadge";
 import { converTimestampToDate } from "../../utils/date";
 import { formatToIDR } from "../../utils/number";
@@ -115,7 +115,7 @@ function AdminOrderDetail() {
                                     </thead>
                                     <tbody>
                                         {items.map(item => (
-                                            <tr>
+                                            <tr key={item.id}>
                                             <td>{item.name}</td>
                                             <td>{formatToIDR(item.price)}</td>
                                             <td>{Number(item.quantity)}</td>
