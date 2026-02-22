@@ -27,6 +27,7 @@ import OrderDetailSection from './components/OrderDetailSection/OrderDetailSecti
 import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/auth';
 import { getAuthClient } from './api/grpc/client';
+import AdminEditProduct from './pages/AdminEditProduct/AdminEditProduct';
 
 const router = createBrowserRouter([
     {
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
             { path: 'services', element: <Services /> },
             { path: 'cart', element: <Cart /> },
             { path: 'checkout', element: <Checkout /> },
-            { path: 'checkout/success', element: <CheckoutSuccess /> },
+            { path: 'checkout/:id/success', element: <CheckoutSuccess /> },
             {
                 path: 'profile',
                 element: <Profile />,
@@ -63,11 +64,13 @@ const router = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout />,
         children: [
+            { path: "orders/:id/detail", element: <AdminOrderDetail /> },
             {
                 path: '',
                 element: <AdminDashboard />,
                 children: [
                     { path: 'products', element: <AdminProductListSection /> },
+                    { path: 'product', element: <AdminProductListSection /> },
                     { path: 'orders', element: <AdminOrderListSection /> },
                     { path: 'customers', element: <AdminCustomerListSection /> },
                     { path: 'reports', element: <AdminSalesReportSection /> },
@@ -81,8 +84,10 @@ const router = createBrowserRouter([
                     { path: 'change-password', element: <ChangePasswordSection /> },
                 ]
             },
-            { path: "order", element: <AdminOrderDetail /> },
             { path: "products/create", element: <AdminCreateProduct /> },
+            { path: "product/create", element: <AdminCreateProduct /> },
+            { path: "products/:id/edit", element: <AdminEditProduct /> },
+            { path: "product/:id/edit", element: <AdminEditProduct /> },
         ]
     }
 ])

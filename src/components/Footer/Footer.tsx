@@ -1,15 +1,29 @@
 import { useState } from "react";
+import useGrpcApi from "../../hooks/useGrpcApi";
+import { getNewsletterClient } from "../../api/grpc/client";
+import Swal from "sweetalert2";
 
 function Footer() {
+    const subcribeApi = useGrpcApi();
     const currentYear = new Date().getFullYear();
-    const [showModal, setShowModal] = useState(false);
+    const [fullName, setFullName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Here you can add newsletter subscription logic
-        setShowModal(true);
-        // setName('');
-        // setEmail('');
+
+        await subcribeApi.callApi(getNewsletterClient().subcribeNewsletter({
+            email: email,
+            fullName: fullName,
+        }));
+
+        await Swal.fire({
+            icon: 'success',
+            title: "Berhasil Subcribe Newsletter"
+        });
+
+        setFullName('');
+        setEmail('');
     };
 
     return (
@@ -31,10 +45,22 @@ function Footer() {
 
                             <form className="row g-3" onSubmit={handleSubmit}>
                                 <div className="col-auto">
-                                    <input type="text" className="form-control" placeholder="Masukkan nama Anda" />
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        placeholder="Masukkan nama Anda"
+                                        onChange={(e) => setFullName(e.target.value)}
+                                        value={fullName}
+                                        />
                                 </div>
                                 <div className="col-auto">
-                                    <input type="email" className="form-control" placeholder="Masukkan email Anda" />
+                                    <input 
+                                        type="email" 
+                                        className="form-control" 
+                                        placeholder="Masukkan email Anda"
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        value={email}
+                                        />
                                 </div>
                                 <div className="col-auto">
                                     <button className="btn btn-primary">
@@ -57,21 +83,6 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* Success Modal */}
-            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none' }}>
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <div className="modal-body text-center p-5">
-                            <i className="bi bi-check-circle-fill display-1 mb-4"></i>
-                            <h3>Terima Kasih!</h3>
-                            <p>Anda telah berhasil berlangganan newsletter kami.</p>
-                            <button className="btn btn-primary" onClick={() => setShowModal(false)}>Tutup</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="modal-backdrop fade show"></div>
             </div>
         </footer>
     )
